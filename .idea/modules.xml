@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Exam_Juin2023/Exam_Juin2023.iml" filepath="$PROJECT_DIR$/Exam_Juin2023/Exam_Juin2023.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exam_Sept2022/Exam_Sept2022.iml" filepath="$PROJECT_DIR$/Exam_Sept2022/Exam_Sept2022.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exam_Sept2023/Exam_Sept2023.iml" filepath="$PROJECT_DIR$/Exam_Sept2023/Exam_Sept2023.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Fiche1_collections/Fiche1_collections.iml" filepath="$PROJECT_DIR$/Fiche1_collections/Fiche1_collections.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Fiche2_graphes/Fiche2_graphes.iml" filepath="$PROJECT_DIR$/Fiche2_graphes/Fiche2_graphes.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Fiche3_arbres/Fiche3_arbres.iml" filepath="$PROJECT_DIR$/Fiche3_arbres/Fiche3_arbres.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Fiche4_minimax/Fiche4_minimax.iml" filepath="$PROJECT_DIR$/Fiche4_minimax/Fiche4_minimax.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Fiche5_huffman/Fiche5_huffman.iml" filepath="$PROJECT_DIR$/Fiche5_huffman/Fiche5_huffman.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Projet_sd2/Projet_sd2.iml" filepath="$PROJECT_DIR$/Projet_sd2/Projet_sd2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Sd2.iml" filepath="$PROJECT_DIR$/.idea/Sd2.iml" />
+    </modules>
+  </component>
+</project>
