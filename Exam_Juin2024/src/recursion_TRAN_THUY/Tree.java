@@ -61,16 +61,43 @@ public class Tree implements Iterable<Tree> {
 	// Cette m�thode renvoie true si la valeur de chaque n�ud est strictement sup�rieure � la valeur de tous ses enfants, 
 	// sinon elle renvoie false.
 	public boolean parentPlusGrandQueSesEnfants() {
-		//TO DO
-		return false;
+		//TODO
+		//On parcourt tous les enfants directs de ce nœud
+		for (Tree enfant : children) {
+			// Si un enfant a une valeur >= au parent → retourne false
+			if (enfant.getValue() >= this.value) {
+				return false; // On arrête directement
+			}
+			// Appelle récursivement la méthode sur les sous-arbres
+			if (!enfant.parentPlusGrandQueSesEnfants()) {
+				return false; // Si un sous-arbre ne respecte pas la règle → on arrête
+			}
+		}
+		return true; // Si tous les enfants et sous-arbres respectent la règle, on retourne true
 	}
 	
 	// Cette m�thode renvoie une HashMap contenant le nombre de n�uds pour chaque niveau de l'arbre.
 	// Le niveau de la racine est consid�r� comme le niveau 0.
 	public HashMap<Integer, Integer> nbNoeudsParNiveau() {
-		//TO DO
-		return null;
+		//TODO
+		HashMap<Integer, Integer> map = new HashMap<>();//Crée une map vide pour stocker le nombre de nœuds par niveau
+		remplirMapParNiveau(this, 0, map);// Lance le remplissage de la map à partir de ce nœud (racine), niveau 0
+		return map;// Retourne la map remplie
 	}
+
+	private void remplirMapParNiveau(Tree node, int niveau, HashMap<Integer, Integer> map) {
+		if (node == null) return;// Cas de base : si le nœud est null, on ne fait rien
+
+		// Incrémente le compteur pour ce niveau :
+		// si la clé existe déjà → +1, sinon → on démarre à 1
+		map.put(niveau, map.getOrDefault(niveau, 0) + 1);
+
+		// Appelle récursivement la méthode sur chaque enfant avec niveau+1
+		for (Tree enfant : node.getChildren()) {
+			remplirMapParNiveau(enfant, niveau + 1, map);
+		}
+	}
+
 
 
 	public static void main(String[] args) {
