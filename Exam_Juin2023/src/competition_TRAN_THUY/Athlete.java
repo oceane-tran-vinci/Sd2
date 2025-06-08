@@ -1,6 +1,7 @@
 package competition_TRAN_THUY;
 
-public class Athlete{
+//ajouter implements Comparable<Athlete>
+public class Athlete implements Comparable<Athlete>{
 	private final String nom;
 	private int nbSautEffectue = 0;
 	private int[] sauts = new int[3];
@@ -45,6 +46,36 @@ public class Athlete{
 		} else if (!nom.equals(other.nom))
 			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(Athlete autreAthlete) {
+		int meilleurSaut = meilleurSaut(); // on récupère le meilleur saut de cet athlète
+		int autreMeilleurSaut = autreAthlete.meilleurSaut(); // et celui de l'autre athlète
+
+		// Si les deux ont le même meilleur saut, on les classe par ordre alphabétique du nom
+		if (meilleurSaut == autreMeilleurSaut) {
+			return nom.compareTo(autreAthlete.nom);
+		}
+
+		// Sinon, on classe par ordre décroissant du meilleur saut (plus grand saut d'abord)
+		return Integer.compare(autreMeilleurSaut, meilleurSaut);
+	}
+
+
+	private int meilleurSaut() {
+		int meilleur = 0; // On commence avec 0 comme valeur par défaut
+
+		// On parcourt les 3 sauts
+		for (int saut : sauts) {
+			// Si un saut est meilleur que le meilleur actuel, on le garde
+			if (saut > meilleur) {
+				meilleur = saut;
+			}
+		}
+
+		// On retourne le meilleur saut trouvé
+		return meilleur;
 	}
 
 }
