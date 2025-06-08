@@ -60,13 +60,71 @@ public class Tree implements Iterable<Tree> {
 
 	// Cette m�thode renvoie une copie de this c�d une nouvelle instance de Tree ayant les m�mes �l�ments au m�me endroit que l'objet courant
 	public Tree clone() {
-		return null;
+		//TODO
+		//On crée un nouveau tableau pour stocker les clones des enfants
+		Tree[] newChildren = new Tree[children.length];
+
+		// Pour chaque enfant du nœud courant, on crée une copie récursive
+		for (int i = 0; i < children.length; i++) {
+			newChildren[i] = children[i].clone(); // appel récursif pour cloner l’enfant
+		}
+
+		// On retourne un nouveau nœud avec la même valeur et les enfants clonés
+		// Le constructeur remettra automatiquement les bons liens parent/enfant
+		return new Tree(value, newChildren);
 	}
-	
+
+	//TODO
 	// Cette m�thode imprime � la sortie standard tous les noeuds 
 	// suivi de leurs anc�tres jusqu�� la racine.
+
+	/*VERSION 1 (en 2 méthodes) */
 	public void afficherNoeudsAvecAncetres() {
+		afficherNoeudsAvecAncetresRec(this); // On lance la récursion à partir du nœud courant (this)
 	}
+
+	// Méthode récursive qui affiche les ancêtres d’un nœud donné
+	private void afficherNoeudsAvecAncetresRec(Tree t) {
+		// On commence à partir du nœud t et on remonte jusqu’à la racine
+		Tree current = t;
+		while (current != null) {
+			System.out.print(current.getValue() + " "); // Affiche la valeur du nœud courant
+			current = current.getParent(); // Remonte d’un niveau dans l’arbre
+
+		}
+		System.out.println(); // Nouvelle ligne après chaque nœud traité
+
+		// Appel récursif sur chacun des enfants de t
+		for (Tree child : t.getChildren()) {
+			afficherNoeudsAvecAncetresRec(child);
+		}
+	}
+
+	/*VERSION 2 (en 1 méthode)
+	public void afficherNoeudsAvecAncetres() {
+		//TODO
+		// Si le nœud courant est la racine (il n’a pas de parent)
+		if (this.getParent() == null) {
+			System.out.println(this.value); // On affiche juste sa propre valeur
+		} else {
+			// Sinon, on remonte jusqu’à la racine en affichant la lignée
+			Tree parent = this.getParent();
+			System.out.print(this.value + " " + parent.value); // Affiche le nœud et son parent immédiat
+
+			// Continue à remonter jusqu’à la racine
+			while (parent.getParent() != null) {
+				parent = parent.getParent();
+				System.out.print(" " + parent.value);  // Affiche les ancêtres suivants
+			}
+			System.out.println(); // Fin de la ligne pour ce nœud
+		}
+
+		// Appel récursif sur tous les enfants du nœud courant
+		for (Tree child : children) {
+			child.afficherNoeudsAvecAncetres();
+		}
+	}
+	*/
 	
 
 	public static void main(String[] args) {
