@@ -58,8 +58,19 @@ public class Tree implements Iterable<Tree> {
 	}
 
 	// Cette m�thode renvoie vrai si tous les noeuds ont au maximum deux fils, faux sinon.
+	// c’est-à-dire que chaque nœud a au maximum 2 enfants.
+	// Elle fonctionne de manière récursive.
 	public boolean estArbreBinaire() {
-		return false;
+		if (this.nbrChildren() > 2) {
+			return false; // trop d'enfants → pas binaire
+		}
+
+		for (Tree child : children) {
+			if (!child.estArbreBinaire()) { // récursion pour vérifier chaque sous-arbre (tous les enfants)
+				return false;
+			}
+		}
+		return true; // aucun nœud avec >2 enfants → c'est binaire
 	}
 	
 
