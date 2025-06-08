@@ -20,6 +20,7 @@ public class Tree {
 	// computeMinimaxValues
 	// et non dans ce constructeur.
 	public Tree(State state) {
+		// TODO
 		this.state = state;
 		if (state.getLeftBar() != state.getRightBar()) {
 			this.leftChild = new Tree(state.playLeft());
@@ -30,6 +31,7 @@ public class Tree {
 	// Renvoie la valeur Minimax du joueur bleu en fonction des valeurs Minimax de
 	// ses fils.
 	private static Triplet minBlue(Triplet leftRes, Triplet rightRes) {
+		// TODO
 		if (leftRes.getMinBlue() > rightRes.getMinBlue()) {
 			return new Triplet(true, leftRes.getMinBlue(), leftRes.getMinOrange());
 		} else {
@@ -40,6 +42,7 @@ public class Tree {
 	// Renvoie la valeur Minimax du joueur orange en fonction des valeurs Minimax de
 	// ses fils.
 	private static Triplet minOrange(Triplet leftRes, Triplet rightRes) {
+		// TODO
 		if (leftRes.getMinOrange() > rightRes.getMinOrange()) {
 			return new Triplet(true, leftRes.getMinBlue(), leftRes.getMinOrange());
 		} else {
