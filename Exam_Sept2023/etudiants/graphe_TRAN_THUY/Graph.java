@@ -57,6 +57,33 @@ public class Graph {
 	// depuis la station de depart.
 	public void bfs(Station depart) {
 		// TODO
+		ArrayDeque<Station> file = new ArrayDeque<>(); // Création d'une file pour gérer les stations à visiter, dans l'ordre BFS
+		ArrayList<Station> visited = new ArrayList<>(); // Liste des stations déjà visitées, pour ne pas repasser plusieurs fois au même endroit
+
+		// On commence le parcours depuis la station de départ
+		file.add(depart);    // On ajoute ALMA (ou autre point de départ) à la file
+		visited.add(depart); // On marque ALMA comme visitée
+
+		// Tant qu’il reste des stations à visiter
+		while (!file.isEmpty()) {
+			Station actual = file.poll(); // On prend la première station de la file
+			for (Troncon troncon : listeAdjacence) {
+				// Si le tronçon part de la station actuelle (ex: ALMA → VANDERVELDE)
+				if (troncon.getDepart().equals(actual)) {
+					Station toAdd = troncon.getArrivee(); // On récupère la station d’arrivée de ce tronçon
+					// Si cette station d’arrivée n’a pas encore été visitée
+					if (!visited.contains(toAdd)) {
+						file.add(toAdd); // On l’ajoute à la file pour qu’on la visite plus tard
+						visited.add(toAdd); // On la marque comme visitée (pour ne pas la revisiter plus tard)
+					}
+				}
+			}
+		}
+
+		// Une fois le parcours terminé, on affiche toutes les stations visitées, dans l’ordre
+		for (Station station : visited) {
+			System.out.println(station.getNom());
+		}
 	}
 
 }
