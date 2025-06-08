@@ -2,6 +2,8 @@ package graphe_TRAN_THUY;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -58,8 +60,36 @@ public class Graph {
 	// qu il est possible d'atteindre dans l ordre d un parcours en largeur (BFS)
 	// depuis la ville de depart.
 	public void bfs(String nomSource) {
-		Ville source = mapVilleNom.get(nomSource);
-		// TO COMPLETE
+		Ville source = mapVilleNom.get(nomSource); // Récupère la ville de départ à partir de son nom
+		// TODO
+		if (source == null) return; // Si la ville de départ n'existe pas dans la map, on arrête
+
+		ArrayDeque<Ville> file = new ArrayDeque<>(); // File pour gérer l’ordre de visite (parcours en largeur)
+		ArrayList<Ville> visited = new ArrayList<>();// Liste des villes déjà visitées pour éviter les doublons
+
+		// On commence le parcours depuis la ville source
+		file.add(source);
+		visited.add(source);
+
+		// Tant qu’il reste des villes à visiter
+		while (!file.isEmpty()) {
+			Ville current = file.poll(); // On retire la première ville de la file (FIFO)
+			System.out.println(current.getNom() + " "); // On affiche le nom de la ville visitée
+
+			// On parcourt toutes les routes du graphe
+			for (Route r : routes) {
+				// Si la route part de la ville actuelle
+				if (r.getSource().equals(current)) {
+					Ville voisin = r.getDestination();
+
+					// Si la ville voisine n’a pas encore été visitée
+					if (!visited.contains(voisin)) {
+						file.add(voisin); // On l’ajoute à la file pour traitement futur
+						visited.add(voisin); // Et on la marque comme visitée
+					}
+				}
+			}
+		}
 	}
 
 }
