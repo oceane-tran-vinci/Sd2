@@ -97,7 +97,30 @@ public class Huffman {
 	// En param�tre, en plus de la chaine � d�coder, est sp�cifi� la racine de l'arbre de 
 	// Huffman 
 	public static String expand(Node root, String t) {
-		return "";
+		//TODO
+		//On crée un StringBuffer pour construire la chaîne décodée caractère par caractère
+		StringBuffer s = new StringBuffer("");
+		char[] b = t.toCharArray(); // On convertit la chaîne binaire (t) en tableau de caractères
+		int i=0; // i servira à parcourir les bits dans la chaîne
+		int length=root.freq; // length correspond à la fréquence totale, donc au nbr de caractères à reconstruire
+
+		// Pour chaque caractère attendu dans le résultat...
+		for (int j=0; j<length;j++) {
+			Node x = root; // On commence toujours le parcours depuis la racine
+
+			// Tant qu’on n’est pas arrivé à une feuille (caractère final)
+			while (!x.isLeaf()) {
+				// Si le bit courant est '1', on va à droite
+				if (b[i] == '1') {
+					x = x.right;
+				} else {
+					x = x.left; // Sinon (bit = '0'), on va à gauche
+				}
+				i++; // On passe au bit suivant
+			}
+			s = s.append(x.ch); // Une fois arrivé sur une feuille, on récupère le caractère associé
+		}
+		return s.toString(); // On retourne la chaîne finale décodée sous forme de String
 	}
 	
 	public static void main(String[] args) throws IOException {
