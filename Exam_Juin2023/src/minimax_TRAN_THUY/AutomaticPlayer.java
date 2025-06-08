@@ -12,6 +12,7 @@ public class AutomaticPlayer extends SimpleSpectator implements Player {
 	// 2) calcule les valeurs Minimax pour chaque noeud de l'arbre.
 	@Override
 	public void start(State state) {
+		// TODO
 		super.start(state);
 		currentNode = new Tree(state);
 		currentNode.computeMinimaxValues();
@@ -21,6 +22,7 @@ public class AutomaticPlayer extends SimpleSpectator implements Player {
 	// cad le noeud qui correspond � l'�tat courant du jeu.
 	@Override
 	public void play(boolean isLeftMove, State state) {
+		// TODO
 		super.play(isLeftMove, state);
 		if (isLeftMove) {
 			currentNode = currentNode.getLeftChild();
@@ -34,6 +36,7 @@ public class AutomaticPlayer extends SimpleSpectator implements Player {
 	// 2) Elle renvoie faux si ce joueur joue la barre de droite.
 	@Override
 	public boolean nextPlay() {
+		// TODO
 		return currentNode.getMinimaxValue().isLeftMove();
 	}
 }
