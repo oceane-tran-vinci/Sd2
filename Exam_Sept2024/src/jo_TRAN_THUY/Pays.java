@@ -1,6 +1,6 @@
 package jo_TRAN_THUY;
 
-public class Pays{
+public class Pays implements Comparable<Pays>{
 	private final String name;
 	private int nombreMedailleOr = 0;
 	private int nombreMedailleArgent = 0;
@@ -71,4 +71,25 @@ public class Pays{
 		return true;
 	}
 
+	@Override
+	public int compareTo(Pays other) {
+		//TODO
+		//Comparaison par nombre de médailles d'or
+		if (this.nombreMedailleOr != other.nombreMedailleOr) {
+			return Integer.compare(other.nombreMedailleOr, this.nombreMedailleOr);
+		}
+
+		// Si égalité, comparaison par nombre d'argent
+		if (this.nombreMedailleArgent != other.nombreMedailleArgent) {
+			return Integer.compare(other.nombreMedailleArgent, this.nombreMedailleArgent);
+		}
+
+		// Si encore égalité, comparaison par nombre de bronze
+		if (this.nombreMedailleBronze != other.nombreMedailleBronze) {
+			return Integer.compare(other.nombreMedailleBronze, this.nombreMedailleBronze);
+		}
+
+		// Égalité parfaite : peu importe l’ordre → on compare les noms (pour éviter les doublons en TreeSet)
+		return this.name.compareTo(other.name);
+	}
 }
