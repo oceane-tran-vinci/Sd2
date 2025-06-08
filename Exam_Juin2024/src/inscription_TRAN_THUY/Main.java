@@ -3,7 +3,7 @@ package inscription_TRAN_THUY;
 public class Main {
 	public static void main(String[] args) throws InterruptedException {
 		Etudiant e1= new Etudiant (1,"Christophe","Damas");
-		Etudiant e2= new Etudiant (2,"Jos�","Vander Meulen");
+		Etudiant e2= new Etudiant (2,"José","Vander Meulen");
 		Etudiant e3= new Etudiant (3,"Isabelle","Cambron");
 		Etudiant e4= new Etudiant (4,"Gregory","Seront");
 		Etudiant e5= new Etudiant (5,"Brigitte","Lehmann");
