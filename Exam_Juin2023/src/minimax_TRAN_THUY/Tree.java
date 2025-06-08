@@ -52,6 +52,21 @@ public class Tree {
 	// Triplet repr�sentant les valeurs Minimax de chaque noeud.
 	public void computeMinimaxValues() {
 		//TODO
+		if (this.isLeaf()) {
+			// Cas de base : feuille → on stocke les points actuels du jeu
+			minimaxValue = new Triplet(false, state.getBluePoints(), state.getOrangePoints());
+		} else {
+			// Étape 1 : on calcule récursivement les valeurs minimax des deux enfants
+			leftChild.computeMinimaxValues();
+			rightChild.computeMinimaxValues();
+
+			// Étape 2 : on détermine la valeur minimax du nœud courant
+			if (state.isBlueToPlay()) {
+				minimaxValue = minBlue(leftChild.getMinimaxValue(), rightChild.getMinimaxValue());
+			} else {
+				minimaxValue = minOrange(leftChild.getMinimaxValue(), rightChild.getMinimaxValue());
+			}
+		}
 	}
 
 	// Renvoie true si le noeud est une feuille, false sinon.
