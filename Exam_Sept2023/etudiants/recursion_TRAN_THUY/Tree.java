@@ -61,13 +61,33 @@ public class Tree implements Iterable<Tree> {
 	// renvoie le nombre de fois que la valeur en parametre apparait dans l�arbre
 	public int nbNoeudEgalA(int x) {
 		//TODO
-		return 0;
+		int cpt = 0; // Compteur pour le nombre d'occurrences de x
+
+		// Si la valeur du noeud courant est égale à x, on incrémente le compteur
+		if (this.value == x) {
+			cpt++;
+		}
+
+		// Pour chaque enfant de ce noeud...
+		for (Tree tree : children) {
+			// ...on ajoute récursivement les occurrences de x dans ses sous-arbres
+			cpt += tree.nbNoeudEgalA(x);
+		}
+		return cpt; // Retourne le total trouvé
 	}
 	
 	// Renvoie un HashSet contenant les entiers presents dans l'arbre, sans doublons
 	public HashSet<Integer> toSet() {
 		//TODO
-		return null;
+		HashSet<Integer> set = new HashSet<>(); // Crée un ensemble vide
+		set.add(this.value); // Ajoute la valeur du noeud courant
+
+		// Pour chaque enfant...
+		for (Tree child : children) {
+			// ...on ajoute récursivement tous les éléments du sous-arbre de cet enfant
+			set.addAll(child.toSet());
+		}
+		return set; // Retourne l’ensemble contenant toutes les valeurs uniques
 	}
 
 	public static void main(String[] args) {
