@@ -59,13 +59,61 @@ public class Tree implements Iterable<Tree> {
 	}
 
 	// Renvoie vrai si tous les noeuds ont la m�me valeur, false sinon.
+	/*VERSION 1 (appelle de la méthode dans la méthode)*/
 	public boolean tousLesNoeudsOntLaMemeValeur() {
-		return false;
+		//TODO
+		//On parcourt tous les enfants du nœud courant
+		for (Tree enfant : children) {
+			// Si un enfant a une valeur différente de celle du parent → l'arbre ne respecte pas la condition
+			if (enfant.value != this.value) return false;
+			// Appel récursif : on vérifie que le sous-arbre de cet enfant respecte aussi la condition
+			if (!enfant.tousLesNoeudsOntLaMemeValeur()) return false;
+		}
+		// Si tous les enfants (et sous-arbres) ont la même valeur, on retourne true
+		return true;
 	}
 
-	// Renvoie tous les niveaux d'une valeur donn�e
+	// Renvoie vrai si tous les noeuds ont la m�me valeur, false sinon.
+	/*VERSION 2 (en méthode)
+	public boolean tousLesNoeudsOntLaMemeValeur() {
+    return tousLesNoeudsOntLaMemeValeur(this.value); // Appel initial : on passe la valeur de la racine comme référence
+	}
+
+	private boolean tousLesNoeudsOntLaMemeValeur(int reference) {
+			// Si un enfant a une valeur différente → false
+			if (this.value != reference) {
+					return false;
+			}
+			// Vérifie récursivement tous les enfants
+			for (Tree enfant : children) {
+					if (!enfant.tousLesNoeudsOntLaMemeValeur(reference)) {
+							return false;
+					}
+			}
+			return true;
+	}
+	*/
+
+	//TODO
+	//Renvoie tous les niveaux d'une valeur donn�e
 	public HashSet<Integer> niveauxDeLaValeur(int valeur) {
-		return null;
+		HashSet<Integer> niveaux = new HashSet<>(); // Crée un HashSet vide pour stocker les niveaux où la valeur apparaît
+		remplirNiveaux(this, valeur, 0, niveaux); // Appelle la méthode récursive pour remplir le set, en partant du niveau 0
+		return niveaux; // Retourne le set des niveaux trouvés
+	}
+
+	private void remplirNiveaux(Tree node, int valeur, int niveau, HashSet<Integer> niveaux) {
+		if (node == null) return; // Si le nœud est null (cas de sécurité), on ne fait rien
+
+		// Si la valeur du nœud correspond à la valeur, on ajoute le niveau
+		if (node.value == valeur) {
+			niveaux.add(niveau);
+		}
+
+		// On parcourt récursivement les enfants du nœud avec niveau + 1
+		for (Tree enfant : node.children) {
+			remplirNiveaux(enfant, valeur, niveau + 1, niveaux);
+		}
 	}
 
 	public static void main(String[] args) {
