@@ -21,6 +21,17 @@ public class Tree {
 	// et non dans ce constructeur.
 	public Tree(State state) {
 		//TODO
+		this.state = state; // On assigne l’état du jeu actuel au nœud courant
+
+		// Si le jeu peut continuer (les deux barres sont différentes)
+		if (state.getLeftBar() != state.getRightBar()) {
+			// On simule un coup sur la barre de gauche → sous-état du jeu
+			// et on construit récursivement le sous-arbre gauche
+			leftChild = new Tree(state.playLeft());
+			// Idem pour un coup sur la barre de droite → sous-arbre droit
+			rightChild = new Tree(state.playRight());
+		}
+		// Sinon : pas de coup possible, c’est une feuille (pas d’enfant)
 	}
 
 	// Renvoie la valeur Minimax du joueur bleu en fonction des valeurs Minimax de
