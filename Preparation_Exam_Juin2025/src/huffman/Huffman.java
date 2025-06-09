@@ -59,6 +59,26 @@ public class Huffman {
 		return freq; // On retourne la map des fréquences complétée
 	}
 
+	/*Version plus simple*/
+	// Méthode qui calcule la fréquence d'apparition de chaque caractère dans une chaîne donnée
+	public static Map<Character, Integer> computeFreqV2(String s) {
+		//TODO
+		//On crée une map vide pour stocker les caractères et leur fréquence
+		Map<Character, Integer> freqMap = new HashMap<>();
+
+		// On parcourt chaque caractère de la chaîne
+		for (char c : s.toCharArray()) {
+				// La méthode merge fait :
+				// - si 'c' n'est pas encore dans la map, elle l'ajoute avec la valeur 1
+				// - si 'c' est déjà dans la map, elle met à jour la valeur en faisant : ancienneValeur + 1
+				freqMap.merge(c, 1, Integer::sum);
+		}
+
+		// On retourne la map contenant les fréquences
+		return freqMap;
+	}
+
+
 	/***********************************************************
 	 M�thode buildTree
 	 ***********************************************************/
