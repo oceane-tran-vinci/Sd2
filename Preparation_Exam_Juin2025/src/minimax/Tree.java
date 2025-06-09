@@ -20,15 +20,30 @@ public class Tree {
 	// computeMinimaxValues
 	// et non dans ce constructeur.
 	public Tree(State state) {
-		//TODO
+		// TODO
+		this.state = state; // On assigne l’état du jeu actuel au nœud courant
+
+		// Si le jeu peut continuer (les deux barres sont différentes)
+		if (state.getLeftBar() != state.getRightBar()) {
+			// On simule un coup sur la barre de gauche → sous-état du jeu
+			// et on construit récursivement le sous-arbre gauche
+			leftChild = new Tree(state.playLeft());
+			// Idem pour un coup sur la barre de droite → sous-arbre droit
+			rightChild = new Tree(state.playRight());
+		}
+		// Sinon : pas de coup possible, c’est une feuille (pas d’enfant)
 	}
 
 	// Renvoie la valeur Minimax du joueur bleu en fonction des valeurs Minimax de
 	// ses fils.
 	private static Triplet minBlue(Triplet leftRes, Triplet rightRes) {
+		// TODO
+		// Si le score bleu est plus élevé dans le sous-arbre gauche, on garde celui-là
 		if (leftRes.getMinBlue() > rightRes.getMinBlue()) {
+			// Le paramètre 'true' indique que le meilleur choix vient du fils gauche
 			return new Triplet(true, leftRes.getMinBlue(), leftRes.getMinOrange());
 		} else {
+			// Sinon, on prend le fils droit (minBlue est plus élevé à droite)
 			return new Triplet(false, rightRes.getMinBlue(), rightRes.getMinOrange());
 		}
 	}
@@ -36,9 +51,15 @@ public class Tree {
 	// Renvoie la valeur Minimax du joueur orange en fonction des valeurs Minimax de
 	// ses fils.
 	private static Triplet minOrange(Triplet leftRes, Triplet rightRes) {
+		// TODO
+		// Si la valeur Minimax orange du fils gauche est meilleure (plus grande),
+		// on choisit ce sous-arbre (fils gauche)
 		if (leftRes.getMinOrange() > rightRes.getMinOrange()) {
+			// true → le meilleur est à gauche
 			return new Triplet(true, leftRes.getMinBlue(), leftRes.getMinOrange());
 		} else {
+			// Sinon, on prend le sous-arbre droit (fils droit)
+			// false → le meilleur est à droite
 			return new Triplet(false, rightRes.getMinBlue(), rightRes.getMinOrange());
 		}
 	}
@@ -47,16 +68,24 @@ public class Tree {
 	// En pratique, cette m�thode calcule pour chaque noeud de l'arbre un nouveau
 	// Triplet repr�sentant les valeurs Minimax de chaque noeud.
 	public void computeMinimaxValues() {
+		// TODO
+		// Cas de base : si le nœud est une feuille, on y associe directement les scores du jeu
+		// isLeft = state.isBlueToPlay() permet de garder l'information du joueur à ce moment-là
 		if (this.isLeaf()) {
 			minimaxValue = new Triplet(this.state.isBlueToPlay(), state.getBluePoints(), state.getOrangePoints());
 			return;
 		}
-		;
+
+		// Étape récursive : on calcule d’abord les valeurs minimax des deux enfants
 		leftChild.computeMinimaxValues();
 		rightChild.computeMinimaxValues();
+
+		// Selon le joueur actif, on choisit le sous-arbre le plus avantageux :
+		// → si c’est au tour de Blue, on maximise les points bleus
 		if (state.isBlueToPlay()) {
 			minimaxValue = minBlue(leftChild.minimaxValue, rightChild.minimaxValue);
 		} else {
+			// → sinon, on maximise les points oranges
 			minimaxValue = minOrange(leftChild.minimaxValue, rightChild.minimaxValue);
 		}
 	}

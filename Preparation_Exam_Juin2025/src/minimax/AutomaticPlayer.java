@@ -8,24 +8,26 @@ public class AutomaticPlayer extends SimpleSpectator implements Player {
 	private Tree currentNode;
 
 	// En plus du contrat de Spectator, cette m�thode :
-	// 1) Initialise l'arbre du jeu, et
+	// 1) Initialise un arbre des coups, et
 	// 2) calcule les valeurs Minimax pour chaque noeud de l'arbre.
 	@Override
 	public void start(State state) {
-		super.start(state);
-		currentNode = new Tree(state);
-		currentNode.computeMinimaxValues();
+		// TODO
+		super.start(state); // appelle la méthode de la classe parente (Spectator)
+		currentNode = new Tree(state); // crée la racine de l’arbre de jeu à partir de l’état initial
+		currentNode.computeMinimaxValues(); // calcule les valeurs minimax pour tous les nœuds de l’arbre
 	}
 
 	// En plus du contrat de Spectator, cette m�thode maintient currentNode,
 	// cad le noeud qui correspond � l'�tat courant du jeu.
 	@Override
 	public void play(boolean isLeftMove, State state) {
-		super.play(isLeftMove, state);
+		// TODO
+		super.play(isLeftMove, state); // met à jour l’état dans la classe parente
 		if (isLeftMove) {
-			currentNode = currentNode.getLeftChild();
+			currentNode = currentNode.getLeftChild(); // si le joueur a joué à gauche, on descend dans l’arbre à gauche
 		} else {
-			currentNode = currentNode.getRightChild();
+			currentNode = currentNode.getRightChild(); // sinon, on descend à droite
 		}
 	}
 
@@ -34,6 +36,7 @@ public class AutomaticPlayer extends SimpleSpectator implements Player {
 	// 2) Elle renvoie faux si ce joueur joue la barre de droite.
 	@Override
 	public boolean nextPlay() {
-		return currentNode.getMinimaxValue().isLeftMove();
+		// TODO
+		return currentNode.getMinimaxValue().isLeftMove(); // le choix optimal selon Minimax
 	}
 }
