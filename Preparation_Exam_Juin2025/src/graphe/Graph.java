@@ -220,7 +220,8 @@ public class Graph {
    * @param nomArtist nom de l’artiste de départ
    */
   public void bfs(String nomArtist) {
-    // On récupère l'artiste source à partir de son nom (par ex. "The Beatles")
+    //TODO
+    //On récupère l'artiste source à partir de son nom (par ex. "The Beatles")
     Artist source = artistsName.get(nomArtist);
 
     // Si l'artiste n'existe pas dans la map, on affiche un message d'erreur et on quitte la méthode
@@ -268,6 +269,7 @@ public class Graph {
    * @param destinationArtist nom de l’artiste d’arrivée
    */
   public void cheminMinimisantNombreDeMentions(String sourceArtist, String destinationArtist) {
+    //TODO
     Set<Artist> visited = new HashSet<>(); // Set pour mémoriser les artistes déjà visités
     Deque<Artist> queue = new LinkedList<>(); // File pour le parcours en largeur (BFS)
     // Map pour reconstruire le chemin : pour chaque artiste visité, on garde la mention qui y mène
@@ -347,6 +349,7 @@ public class Graph {
    * @return ensemble des mentions entrantes (Set<Mention>), ou un ensemble vide si aucun trouvé
    */
   public Set<Mention> mentionsEntrantes(String nomArtist) {
+    //TODO
     Artist target = artistsName.get(nomArtist); // On récupère l’objet Artist correspondant au nom donné
     Set<Mention> entrantes = new HashSet<>(); // On crée un ensemble vide pour stocker les mentions entrantes
 
@@ -376,8 +379,9 @@ public class Graph {
    * chaque artiste est associé aux artistes qu'il mentionne.
    */
   public Map<Artist, Set<Artist>> toListeDAdjacence() {
-    // On crée une nouvelle Map vide pour stocker la liste d’adjacence :
-    // à chaque artiste source (clé) on associera un ensemble (Set) des artistes qu’il mentionne (valeur)
+    //TODO
+    //On crée une nouvelle Map vide pour stocker la liste d’adjacence :
+    //à chaque artiste source (clé) on associera un ensemble (Set) des artistes qu’il mentionne (valeur)
     Map<Artist, Set<Artist>> adjacence = new HashMap<>();
 
     // On parcourt toutes les paires (source → ensemble de mentions sortantes)
