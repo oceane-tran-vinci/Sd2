@@ -2,10 +2,7 @@ package huffman;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Set;
 
 public class Huffman {
 
@@ -38,13 +35,6 @@ public class Huffman {
 	// caract�re donn�e en param�tre et comme valeur la fr�quence de
 	// cette lettre dans cette chaine de caract�re
 	public static Map<Character, Integer> computeFreq(String s) {
-		//TODO
-		return null;
-	}
-
-	/*Version plus simple*/
-	// Méthode qui calcule la fréquence d'apparition de chaque caractère dans une chaîne donnée
-	public static Map<Character, Integer> computeFreqV2(String s) {
 		//TODO
 		return null;
 	}

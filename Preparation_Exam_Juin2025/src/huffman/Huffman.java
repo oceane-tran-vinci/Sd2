@@ -60,22 +60,24 @@ public class Huffman {
 	}
 
 	/*Version plus simple*/
-	// Méthode qui calcule la fréquence d'apparition de chaque caractère dans une chaîne donnée
+	// renvoie une map qui a comme cl� les lettres de la chaine de
+	// caract�re donn�e en param�tre et comme valeur la fr�quence de
+	// cette lettre dans cette chaine de caract�re
 	public static Map<Character, Integer> computeFreqV2(String s) {
 		//TODO
 		//On crée une map vide pour stocker les caractères et leur fréquence
-		Map<Character, Integer> freqMap = new HashMap<>();
+		Map<Character, Integer> freq = new HashMap<>();
 
 		// On parcourt chaque caractère de la chaîne
 		for (char c : s.toCharArray()) {
 				// La méthode merge fait :
 				// - si 'c' n'est pas encore dans la map, elle l'ajoute avec la valeur 1
 				// - si 'c' est déjà dans la map, elle met à jour la valeur en faisant : ancienneValeur + 1
-				freqMap.merge(c, 1, Integer::sum);
+				freq.merge(c, 1, Integer::sum);
 		}
 
 		// On retourne la map contenant les fréquences
-		return freqMap;
+		return freq;
 	}
 
 
@@ -86,8 +88,7 @@ public class Huffman {
 	public static Node buildTree(Map<Character, Integer> freq) {
 		//TODO
 		//Création d'une file de priorité (min-heap) pour trier les nœuds selon leur fréquence
-		PriorityQueue<Node> p = new PriorityQueue<Node>();
-
+		PriorityQueue<Node> p = new PriorityQueue<>();
 		Set<Character> characters = freq.keySet();// Récupère tous les caractères de la map des fréquences
 		// Pour chaque caractère, crée un nœud feuille et l'ajoute à la file
 		for (Character c : characters) {
@@ -114,8 +115,8 @@ public class Huffman {
 	/***********************************************************
 	 M�thode buildCode
 	 ***********************************************************/
-	// renvoie une map qui associe chaque lettre � son code. Ce code est obtenu
-	// en parcourant l'arbre de Huffman donn� en param�tre
+	// renvoie une map qui associe chaque lettre � son code.
+	// Ce code est obtenu en parcourant l'arbre de Huffman donn� en param�tre
 	public static Map<Character, String> buildCode(Node root) {
 		//TODO
 		//On prépare une Map vide pour stocker les associations caractère → code binaire
@@ -132,7 +133,7 @@ public class Huffman {
 			codeMap.put(node.ch, t); // On ajoute ce caractère dans la map avec le chemin binaire actuel
 			return;
 		} else { // Sinon, on continue à parcourir les deux branches :
-			buildCode(codeMap, node.left, t + 0); // gauche → on ajoute '0' au code
+			buildCode(codeMap, node.left, t + '0'); // gauche → on ajoute '0' au code
 			buildCode(codeMap, node.right, t + '1'); // droite → on ajoute '1' au code
 		}
 	}
@@ -145,7 +146,7 @@ public class Huffman {
 	public static String compress(String s, Map<Character, String> codeMap) {
 		//TODO
 		char[] input = s.toCharArray(); // On convertit la chaîne d'entrée en tableau de caractères
-		StringBuffer toReturn = new StringBuffer(""); // StringBuffer est utilisé pour construire efficacement la chaîne binaire résultante
+		StringBuffer toReturn = new StringBuffer(); // StringBuffer est utilisé pour construire efficacement la chaîne binaire résultante
 		// encode
 		// On parcourt chaque caractère de la chaîne d'entrée
 		for (int i = 0; i < input.length; i++) {
@@ -154,6 +155,26 @@ public class Huffman {
 		}
 		return toReturn.toString(); // On retourne la chaîne binaire compressée sous forme de String
 	}
+
+	/*Version simplifié*/
+	// encode la chaine de caract�re prise en param�tre en une chaine de
+	// bit 0 et 1 en utilisant la map des codes codeMap
+	public static String compressV2(String s, Map<Character, String> codeMap) {
+		//TODO
+		//StringBuilder permet de construire une chaîne efficacement (mieux que +=)
+		StringBuilder toReturn = new StringBuilder();
+
+		// On parcourt chaque caractère de la chaîne d’entrée
+		for (char c : s.toCharArray()) {
+			// On récupère le code binaire correspondant au caractère c dans la map,
+			// et on l'ajoute à la fin de toReturn (.append() = .add() mais pour StringBuilder)
+			toReturn.append(codeMap.get(c));
+		}
+		// Une fois tous les codes ajoutés, on transforme le StringBuilder en String,
+		// et on retourne la chaîne compressée (suite de 0 et 1)
+		return toReturn.toString();
+	}
+
 
 	/***********************************************************
 	 M�thode expand
@@ -164,28 +185,29 @@ public class Huffman {
 	public static String expand(Node root, String t) {
 		//TODO
 		//On crée un StringBuffer pour construire la chaîne décodée caractère par caractère
-		StringBuffer s = new StringBuffer("");
-		char[] b = t.toCharArray(); // On convertit la chaîne binaire (t) en tableau de caractères
+		StringBuilder decoded = new StringBuilder();
+		char[] bits = t.toCharArray(); // On convertit la chaîne binaire (t) en tableau de caractères
 		int i=0; // i servira à parcourir les bits dans la chaîne
-		int length=root.freq; // length correspond à la fréquence totale, donc au nbr de caractères à reconstruire
+		int totalChars=root.freq; // totalChars correspond à la fréquence totale, donc au nbr de caractères à reconstruire
 
 		// Pour chaque caractère attendu dans le résultat...
-		for (int j=0; j<length;j++) {
-			Node x = root; // On commence toujours le parcours depuis la racine
+		for (int j=0; j<totalChars;j++) {
+			Node current = root; // On commence toujours le parcours depuis la racine
 
 			// Tant qu’on n’est pas arrivé à une feuille (caractère final)
-			while (!x.isLeaf()) {
+			while (!current .isLeaf()) {
 				// Si le bit courant est '1', on va à droite
-				if (b[i] == '1') {
-					x = x.right;
+				char bit = bits[i];
+				if (bit == '1') {
+					current = current.right;
 				} else {
-					x = x.left; // Sinon (bit = '0'), on va à gauche
+					current = current.left; // Sinon (bit = '0'), on va à gauche
 				}
 				i++; // On passe au bit suivant
 			}
-			s = s.append(x.ch); // Une fois arrivé sur une feuille, on récupère le caractère associé
+			decoded.append(current.ch); // Une fois arrivé sur une feuille, on récupère le caractère associé
 		}
-		return s.toString(); // On retourne la chaîne finale décodée sous forme de String
+		return decoded.toString(); // On retourne la chaîne finale décodée sous forme de String
 	}
 
 	/*MAIN GLOBAL*/
