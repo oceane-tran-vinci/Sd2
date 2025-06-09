@@ -70,7 +70,7 @@ public class Tree {
 	public void computeMinimaxValues() {
 		// TODO
 		// Cas de base : si le nœud est une feuille, on y associe directement les scores du jeu
-		// isLeft = state.isBlueToPlay() permet de garder l'information du joueur à ce moment-là
+		// state.isBlueToPlay() permet de garder l'information du joueur à ce moment-là
 		if (this.isLeaf()) {
 			minimaxValue = new Triplet(this.state.isBlueToPlay(), state.getBluePoints(), state.getOrangePoints());
 			return;
