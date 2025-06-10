@@ -16,6 +16,13 @@ public class Main {
 //    graph.bfs("The Beatles");
 
 //    System.out.println("--------------------------");
+//    System.out.println("Nombre d’artistes atteignables : " + graph.nbArtistesAtteignables("The Beatles"));
+
+//    System.out.println("--------------------------");
+//    Artist populaire = graph.artisteLePlusPopulaire("The Beatles");
+//    if (populaire != null) System.out.println("Artiste le plus populaire : " + populaire.getName());
+
+//    System.out.println("--------------------------");
 //    graph.cheminMinimisantNombreDeMentions("The Beatles", "Kendji Girac");
 
 //    System.out.println("--------------------------");

@@ -141,7 +141,7 @@ public class Graph {
     Map<Artist, Mention> artistMentions = new HashMap<>();
     TreeMap<Artist, Double> artistsToExplore = new TreeMap<>(
         Comparator.comparing(Artist::getDistanceFromSource).thenComparing(Artist::getIdArtist));
-    Set<Artist> exploredArtists  = new HashSet<>();
+    Set<Artist> exploredArtists = new HashSet<>();
 
     src.setDistanceFromSource(0.0);
     artistsToExplore.put(src, 0.0);
@@ -155,22 +155,23 @@ public class Graph {
         break;
       }
 
-      Set<Mention> outgoingMentions  = mentions.get(currentArtist);
+      Set<Mention> outgoingMentions = mentions.get(currentArtist);
       if (outgoingMentions == null) {
         continue;
       }
 
       for (Mention mention : outgoingMentions) {
-        Artist nextArtist  = mention.getDestinationArtist();
-        if (exploredArtists .contains(nextArtist )) {
+        Artist nextArtist = mention.getDestinationArtist();
+        if (exploredArtists.contains(nextArtist)) {
           continue;
         }
 
         double weight = 1.0 / mention.getMention();
         double newDistance = currentArtist.getDistanceFromSource() + weight;
 
-        if (!artistsToExplore.containsKey(nextArtist ) || newDistance < artistsToExplore.get(nextArtist)) {
-          artistsToExplore.remove(nextArtist );
+        if (!artistsToExplore.containsKey(nextArtist) || newDistance < artistsToExplore.get(
+            nextArtist)) {
+          artistsToExplore.remove(nextArtist);
           nextArtist.setDistanceFromSource(newDistance);
           artistsToExplore.put(nextArtist, newDistance);
           artistMentions.put(nextArtist, mention);
@@ -208,14 +209,13 @@ public class Graph {
         + "\n" + "Chemin :\n" + output;
   }
 
-
   /***********************************************************
    MÉTHODE GÉNÉRÉE (possible à l'exam de Juin 2025)
    ***********************************************************/
 
   /**
-   * Affiche tous les artistes accessibles depuis l’artiste donné,
-   * en utilisant un parcours en largeur (BFS).
+   * Affiche tous les artistes accessibles depuis l’artiste donné, en utilisant un parcours en
+   * largeur (BFS).
    *
    * @param nomArtist nom de l’artiste de départ
    */
@@ -259,13 +259,109 @@ public class Graph {
     }
   }
 
+  /**
+   * Retourne le nombre d’artistes accessibles depuis un artiste donné, en utilisant un parcours en
+   * largeur (BFS).
+   *
+   * @param nomArtist nom de l’artiste de départ
+   * @return nombre total d’artistes atteignables (y compris le point de départ)
+   */
+  public int nbArtistesAtteignables(String nomArtist) {
+    //TODO
+    Artist source = artistsName.get(nomArtist);//On récupère l’artiste de départ à partir de son nom
+    // Si l’artiste n’existe pas, on retourne 0 (aucun artiste atteignable)
+    if (source == null) {
+      return 0;
+    }
+
+    Set<Artist> visited = new HashSet<>();// Set pour mémoriser les artistes déjà visités (évite les doublons)
+    Deque<Artist> queue = new LinkedList<>();// File (queue) pour le parcours en largeur (BFS)
+
+    // On commence le parcours avec l’artiste source
+    visited.add(source);
+    queue.add(source);
+
+    // Parcours en largeur
+    while (!queue.isEmpty()) {
+      Artist current = queue.poll();// On retire l’artiste courant de la file
+      Set<Mention> out = mentions.get(current);// On récupère ses mentions sortantes (voisins)
+
+      // Si l’artiste a des voisins
+      if (out != null) {
+        for (Mention m : out) {
+          Artist voisin = m.getDestinationArtist(); // On récupère l’artiste mentionné (le voisin)
+          // Si ce voisin n’a pas encore été visité
+          if (!visited.contains(voisin)) {
+            // On le marque comme visité et on l’ajoute à la file
+            visited.add(voisin);
+            queue.add(voisin);
+          }
+        }
+      }
+    }
+    return visited.size() - 1;// On retourne le nombre d’artistes atteignables, en retirant l’artiste de départ
+  }
 
   /**
-   * Affiche le chemin avec le plus petit nombre de mentions
-   * entre deux artistes (d’un artiste source à un artiste destination).
-   * Utilise un parcours en largeur (BFS).
+   * Retourne l’artiste le plus populaire, c’est-à-dire celui
+   * qui reçoit le plus de mentions entrantes dans le graphe.
    *
-   * @param sourceArtist nom de l’artiste de départ
+   * @return artiste ayant reçu le plus de mentions
+   */
+  public Artist artisteLePlusPopulaire(String nomArtist) {
+    //TODO
+    Artist source = artistsName.get(nomArtist);// On récupère l’artiste de départ à partir de son nom
+    if (source == null) return null;// Si l’artiste n’existe pas, on retourne null
+
+    Set<Artist> visited = new HashSet<>();// Set pour garder les artistes déjà visités
+    Deque<Artist> queue = new LinkedList<>();// File pour faire un parcours en largeur (BFS)
+    Map<Artist, Integer> compteurMentions = new HashMap<>();// Map pour compter combien de fois chaque artiste a été mentionné
+
+    // Initialisation avec l’artiste source
+    visited.add(source);
+    queue.add(source);
+
+    // Parcours en largeur à partir de l’artiste source
+    while (!queue.isEmpty()) {
+      Artist current = queue.poll();// On traite l’artiste courant
+      Set<Mention> out = mentions.get(current);// On récupère ses voisins (artistes qu’il mentionne)
+
+      if (out != null) {
+        for (Mention m : out) {
+          Artist voisin = m.getDestinationArtist();
+          // Si le voisin n’a pas encore été visité
+          if (!visited.contains(voisin)) {
+            visited.add(voisin);
+            queue.add(voisin);
+          }
+          // Dans tous les cas (même s’il a été visité), on compte la mention reçue
+          compteurMentions.put(voisin, compteurMentions.getOrDefault(voisin, 0) + 1);
+        }
+      }
+    }
+
+    // Recherche de l’artiste qui a reçu le plus de mentions
+    Artist max = null; // Celui qu'on va retourner
+    int maxMentions = -1; // Le plus haut nombre de mentions trouvé jusque-là
+
+    for (Map.Entry<Artist, Integer> entry : compteurMentions.entrySet()) {
+      Artist artiste = entry.getKey();           // On récupère l’artiste
+      int mentions = entry.getValue();           // On récupère combien de mentions il a reçues
+
+      if (mentions > maxMentions) {              // Si c’est plus que le max actuel
+        maxMentions = mentions;                // On met à jour le max
+        max = artiste;                         // Et on retient cet artiste
+      }
+    }
+
+    return max; // On retourne l’artiste le plus mentionné parmi ceux atteints
+  }
+
+  /**
+   * Affiche le chemin avec le plus petit nombre de mentions entre deux artistes (d’un artiste
+   * source à un artiste destination). Utilise un parcours en largeur (BFS).
+   *
+   * @param sourceArtist      nom de l’artiste de départ
    * @param destinationArtist nom de l’artiste d’arrivée
    */
   public void cheminMinimisantNombreDeMentions(String sourceArtist, String destinationArtist) {
@@ -294,7 +390,7 @@ public class Graph {
       Artist current = queue.poll(); // Récupère le premier artiste dans la file
 
       // Si on a atteint l'artiste d'arrivée, on peut arrêter
-      if (current.equals(end)){
+      if (current.equals(end)) {
         break;
       }
 
@@ -335,15 +431,16 @@ public class Graph {
     // Affichage final
     System.out.println("Chemin de " + sourceArtist + " à " + destinationArtist + " :");
     for (Mention m : path) {
-      System.out.println(m.getSourceArtist().getName() + " → " + m.getDestinationArtist().getName());
+      System.out.println(
+          m.getSourceArtist().getName() + " → " + m.getDestinationArtist().getName());
     }
     System.out.println("Nombre de mentions (étapes) : " + path.size());
   }
 
 
   /**
-   * Renvoie toutes les mentions entrantes vers un artiste donné.
-   * Autrement dit, toutes les mentions dont la destination est cet artiste.
+   * Renvoie toutes les mentions entrantes vers un artiste donné. Autrement dit, toutes les mentions
+   * dont la destination est cet artiste.
    *
    * @param nomArtist nom de l’artiste ciblé
    * @return ensemble des mentions entrantes (Set<Mention>), ou un ensemble vide si aucun trouvé
@@ -375,8 +472,8 @@ public class Graph {
 
 
   /**
-   * Construit et retourne une liste d'adjacence simplifiée :
-   * chaque artiste est associé aux artistes qu'il mentionne.
+   * Construit et retourne une liste d'adjacence simplifiée : chaque artiste est associé aux
+   * artistes qu'il mentionne.
    */
   public Map<Artist, Set<Artist>> toListeDAdjacence() {
     //TODO

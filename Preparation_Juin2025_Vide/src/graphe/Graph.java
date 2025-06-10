@@ -224,6 +224,30 @@ public class Graph {
 
   }
 
+  /**
+   * Retourne le nombre d’artistes accessibles depuis un artiste donné,
+   * en utilisant un parcours en largeur (BFS).
+   *
+   * @param nomArtist nom de l’artiste de départ
+   * @return nombre total d’artistes atteignables (y compris le point de départ)
+   */
+  public int nbArtistesAtteignables(String nomArtist) {
+    // TODO
+    return 0;
+  }
+
+  /**
+   * Retourne l’artiste le plus populaire, c’est-à-dire celui
+   * qui reçoit le plus de mentions entrantes dans le graphe.
+   *
+   * @return artiste ayant reçu le plus de mentions
+   */
+  public Artist artisteLePlusPopulaire() {
+    // TODO
+    return null;
+  }
+
+
 
   /**
    * Affiche le chemin avec le plus petit nombre de mentions
@@ -279,27 +303,7 @@ public class Graph {
    */
   public Set<Mention> mentionsEntrantes(String nomArtist) {
     //TODO
-    Artist target = artistsName.get(nomArtist); // On récupère l’objet Artist correspondant au nom donné
-    Set<Mention> entrantes = new HashSet<>(); // On crée un ensemble vide pour stocker les mentions entrantes
-
-    // Si l’artiste n’existe pas dans la map, on retourne l’ensemble vide directement
-    if (target == null) {
-      return entrantes; // Artiste introuvable → retourne un ensemble vide
-    }
-
-    // On parcourt toutes les entrées (source → ensemble de mentions sortantes) du graphe
-    for (Map.Entry<Artist, Set<Mention>> entry : mentions.entrySet()) {
-      // Pour chaque mention sortante de l’artiste courant
-      for (Mention m : entry.getValue()) {
-        // Si la mention aboutit à l’artiste ciblé → c’est une mention entrante
-        if (m.getDestinationArtist().equals(target)) {
-          entrantes.add(m); // On l’ajoute à l’ensemble résultat
-        }
-      }
-    }
-
-    // On retourne toutes les mentions entrantes trouvées
-    return entrantes;
+    return null;
   }
 
 
