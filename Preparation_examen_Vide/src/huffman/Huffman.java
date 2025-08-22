@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class Huffman {
 
-	private static class Node implements Comparable<Node> {
+	private static class Node {
 		private char ch;
 		private int freq;
 		private final Node left, right;
@@ -22,10 +22,6 @@ public class Huffman {
 			return left == null && right == null;
 		}
 
-		@Override
-		public int compareTo(Node that) {
-			return this.freq - that.freq;
-		}
 	}
 
 	/***********************************************************

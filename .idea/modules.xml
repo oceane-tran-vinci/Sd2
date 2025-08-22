@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Exam_Juin2023/Exam_Juin2023.iml" filepath="$PROJECT_DIR$/Exam_Juin2023/Exam_Juin2023.iml" />
       <module fileurl="file://$PROJECT_DIR$/Exam_Juin2024/Exam_Juin2024.iml" filepath="$PROJECT_DIR$/Exam_Juin2024/Exam_Juin2024.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Exam_Juin2025/Exam_Juin2025.iml" filepath="$PROJECT_DIR$/Exam_Juin2025/Exam_Juin2025.iml" />
       <module fileurl="file://$PROJECT_DIR$/Exam_Sept2022/Exam_Sept2022.iml" filepath="$PROJECT_DIR$/Exam_Sept2022/Exam_Sept2022.iml" />
       <module fileurl="file://$PROJECT_DIR$/Exam_Sept2023/Exam_Sept2023.iml" filepath="$PROJECT_DIR$/Exam_Sept2023/Exam_Sept2023.iml" />
       <module fileurl="file://$PROJECT_DIR$/Exam_Sept2024/Exam_Sept2024.iml" filepath="$PROJECT_DIR$/Exam_Sept2024/Exam_Sept2024.iml" />
@@ -12,8 +13,8 @@
       <module fileurl="file://$PROJECT_DIR$/Fiche3_arbres/Fiche3_arbres.iml" filepath="$PROJECT_DIR$/Fiche3_arbres/Fiche3_arbres.iml" />
       <module fileurl="file://$PROJECT_DIR$/Fiche4_minimax/Fiche4_minimax.iml" filepath="$PROJECT_DIR$/Fiche4_minimax/Fiche4_minimax.iml" />
       <module fileurl="file://$PROJECT_DIR$/Fiche5_huffman/Fiche5_huffman.iml" filepath="$PROJECT_DIR$/Fiche5_huffman/Fiche5_huffman.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Preparation_Exam_Juin2025/Preparation_Exam_Juin2025.iml" filepath="$PROJECT_DIR$/Preparation_Exam_Juin2025/Preparation_Exam_Juin2025.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Preparation_Juin2025_Vide/Preparation_Juin2025_Vide.iml" filepath="$PROJECT_DIR$/Preparation_Juin2025_Vide/Preparation_Juin2025_Vide.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Preparation_examen_Vide/Preparation_examen_Vide.iml" filepath="$PROJECT_DIR$/Preparation_examen_Vide/Preparation_examen_Vide.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Preparation_examen_remplit/Preparation_examen_remplit.iml" filepath="$PROJECT_DIR$/Preparation_examen_remplit/Preparation_examen_remplit.iml" />
       <module fileurl="file://$PROJECT_DIR$/Projet_sd2/Projet_sd2.iml" filepath="$PROJECT_DIR$/Projet_sd2/Projet_sd2.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/Sd2.iml" filepath="$PROJECT_DIR$/.idea/Sd2.iml" />
     </modules>

@@ -1,0 +1,195 @@
+package graphe_TRAN_THUY;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.*;
+
+public class Graph {
+    private final String artistFile;
+    private final String mentionFile;   
+    private final HashMap<String, Artist> artistsbyName = new HashMap<String, Artist>();
+    private final HashMap<Integer, Artist> artistsById = new HashMap<Integer, Artist>();
+    private final HashMap<Artist, HashSet<Mention>> listeAdjacence = new HashMap<Artist,HashSet<Mention>>();
+
+    public Graph(String artistFile, String mentionFile) {
+    	this.artistFile=artistFile;
+    	this.mentionFile=mentionFile;
+        readArtists();
+        readMentions();
+    }
+    
+    private void readArtists() {
+        try (BufferedReader br = new BufferedReader(new FileReader(this.artistFile))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] datas = line.split(",");
+                int id = Integer.parseInt(datas[0]) ;
+                String name = datas[1];
+                String category = datas[2];
+                Artist artist = new Artist(id,name,category) ;
+                artistsbyName.put(name, artist);
+                artistsById.put(id, artist);
+                listeAdjacence.put(artist, new HashSet<>());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void readMentions() {
+        try (Scanner sc = new Scanner(new File(this.mentionFile))) {
+            while (sc.hasNextLine()) {
+                String[] line = sc.nextLine().split(",");
+                int from = Integer.parseInt(line[0]);
+                int to = Integer.parseInt(line[1]);
+                int number = Integer.parseInt(line[2]);
+                Artist fromArtist = artistsById.get(from);
+                Artist toArtist = artistsById.get(to);
+                Mention mention = new Mention(fromArtist, toArtist, number);
+                listeAdjacence.get(fromArtist).add(mention);
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    //TODO : Compléter
+    /*AVANT :
+    public void trouverCheminLePlusCourt(String from, String to) {
+        Artist fromArtist = artistsbyName.get(from);
+        Artist toArtist = artistsbyName.get(to);
+
+        Queue<Artist> queue = new LinkedList<>();
+        queue.add(fromArtist);
+        HashSet<Artist> visited = new HashSet<>();
+        visited.add(fromArtist);
+
+        while (!queue.isEmpty() ) {
+            Artist current = queue.poll();
+            System.out.println(current);
+            for (Mention mention : listeAdjacence.get(current)) {
+                Artist next = mention.getDestination();
+                if (!visited.contains(next)) {
+                    visited.add(next);
+                    queue.add(next);
+                }
+            }
+        }
+    }
+     */
+    /**
+     * Affiche tous les artistes accessibles depuis l’artiste donné, en utilisant un parcours en
+     * largeur (BFS).
+     *
+     * @param nomArtist nom de l’artiste de départ
+     */
+    public void bfs(String nomArtist) {
+        //TODO
+        //On récupère l'artiste source à partir de son nom (par ex. "The Beatles")
+        Artist source = artistsName.get(nomArtist);
+
+        // Si l'artiste n'existe pas dans la map, on affiche un message d'erreur et on quitte la méthode
+        if (source == null) {
+            System.out.println("Artiste introuvable : " + nomArtist);
+            return;
+        }
+
+        Set<Artist> visited = new HashSet<>(); // Ensemble des artistes déjà visités (pour ne pas les visiter plusieurs fois)
+        Deque<Artist> queue = new LinkedList<>(); // File utilisée pour le parcours en largeur (FIFO = premier entré, premier sorti)
+
+        // On ajoute la source dans la file et on la marque comme visitée
+        queue.add(source);
+        visited.add(source);
+
+        // Tant qu'il reste des artistes à explorer dans la file
+        while (!queue.isEmpty()) {
+            Artist current = queue.poll(); // On enlève le premier artiste de la file
+            System.out.println(current.getName()); // On affiche son nom (ordre de visite BFS)
+
+            // On récupère toutes les mentions sortantes depuis cet artiste (ses voisins)
+            Set<Mention> out = mentions.get(current);
+            // Si l’artiste a effectivement des voisins (il peut n’en avoir aucun → null), on les explore
+            if (out != null) {
+                for (Mention m : out) {
+                    Artist voisin = m.getDestinationArtist(); // Artiste atteint par la mention
+
+                    // Si ce voisin n'a pas encore été visité, on l'ajoute à la file et on le marque comme visité
+                    if (!visited.contains(voisin)) {
+                        queue.add(voisin);
+                        visited.add(voisin);
+                    }
+                }
+            }
+        }
+    }
+
+    //TODO APRES :
+    public void trouverCheminLePlusCourt(String from, String to) {
+        Artist fromArtist = artistsbyName.get(from);
+        Artist toArtist   = artistsbyName.get(to);
+
+        // (Optionnel) garde-fous simples
+        if (fromArtist == null || toArtist == null) {
+            System.out.println("Artiste introuvable.");
+            return;
+        }
+
+        Queue<Artist> queue = new LinkedList<>();
+        queue.add(fromArtist);
+        HashSet<Artist> visited = new HashSet<>();
+        visited.add(fromArtist);
+
+        // Pour reconstruire le chemin
+        HashMap<Artist, Artist> parent = new HashMap<>();
+        parent.put(fromArtist, null);
+
+        boolean found = false;
+
+        while (!queue.isEmpty()) {
+            Artist current = queue.poll();
+
+            // (On peut supprimer l'affichage BFS initial)
+            // System.out.println(current);
+
+            if (current.equals(toArtist)) {
+                found = true;
+                break; // BFS garantit un plus court chemin en nombre d’arêtes
+            }
+
+            for (Mention mention : listeAdjacence.getOrDefault(current, new HashSet<>())) {
+                Artist next = mention.getDestination();
+                if (!visited.contains(next)) {
+                    visited.add(next);
+                    parent.put(next, current);
+                    queue.add(next);
+                }
+            }
+        }
+
+        if (!found) {
+            System.out.println("Aucun chemin trouvé entre " + from + " et " + to + ".");
+            return;
+        }
+
+        // Reconstruction du chemin to -> from puis affichage dans l'ordre
+        Deque<Artist> stack = new ArrayDeque<>();
+        for (Artist a = toArtist; a != null; a = parent.get(a)) {
+            stack.push(a);
+        }
+        while (!stack.isEmpty()) {
+            System.out.println(stack.pop());
+        }
+    }
+
+
+
+
+
+
+
+}
