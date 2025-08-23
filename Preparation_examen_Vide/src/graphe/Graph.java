@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Scanner;
 import java.util.Set;
@@ -126,31 +127,40 @@ public class Graph {
    * Implémentation par Dijkstra sur un coût = 1.0 / mentions (plus de mentions => coût plus faible).
    * Affiche la suite d’artistes (comme pour le plus court chemin).
    */
-  //TODO : Compléter
+  // TODO : Compléter
   public void trouverCheminMaxMentions(String sourceArtist, String destinationArtist) {
     Artist fromArtist = artistsbyName.get(sourceArtist);
-    Artist toArtist = artistsbyName.get(destinationArtist);
+    Artist toArtist   = artistsbyName.get(destinationArtist);
 
-    // File de priorité ou file classique (à adapter en Dijkstra ensuite)
-    Queue<Artist> queue = new LinkedList<>();
+    Map<Artist, Double> dist   = new HashMap<>();
+    Map<Artist, Artist> parent = new HashMap<>();
+
+    // File de priorité ordonnée par la distance courante (on garde le nom 'queue')
+    Queue<Artist> queue = new PriorityQueue<>(
+        Comparator.comparingDouble(a -> dist.getOrDefault(a, Double.POSITIVE_INFINITY))
+    );
     queue.add(fromArtist);
 
-    // Ensemble des artistes déjà visités
-    HashSet<Artist> visited = new HashSet<>();
-    visited.add(fromArtist);
-
+    // --- Boucle principale de Dijkstra ---
     while (!queue.isEmpty()) {
       Artist current = queue.poll();
-      System.out.println(current); // affichage provisoire
 
-      for (Mention mention : listeAdjacence.get(current)) {
-        Artist next = mention.getDestination();
-        if (!visited.contains(next)) {
-          visited.add(next);
-          queue.add(next);
-        }
+      // Optionnel: arrêt anticipé
+      if (current.equals(toArtist)) {
+        break;
+      }
+
+      Set<Mention> out = listeAdjacence.get(current);
+      if (out == null) continue;
+
+      for (Mention m : out) {
+        Artist next = m.getDestination();
+        int nb = m.getNumber();
+        if (nb <= 0) continue; // sécurité
       }
     }
+
   }
+
 
 }

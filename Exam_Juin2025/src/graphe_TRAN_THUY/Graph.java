@@ -82,51 +82,6 @@ public class Graph {
         }
     }
      */
-    /**
-     * Affiche tous les artistes accessibles depuis l’artiste donné, en utilisant un parcours en
-     * largeur (BFS).
-     *
-     * @param nomArtist nom de l’artiste de départ
-     */
-    public void bfs(String nomArtist) {
-        //TODO
-        //On récupère l'artiste source à partir de son nom (par ex. "The Beatles")
-        Artist source = artistsName.get(nomArtist);
-
-        // Si l'artiste n'existe pas dans la map, on affiche un message d'erreur et on quitte la méthode
-        if (source == null) {
-            System.out.println("Artiste introuvable : " + nomArtist);
-            return;
-        }
-
-        Set<Artist> visited = new HashSet<>(); // Ensemble des artistes déjà visités (pour ne pas les visiter plusieurs fois)
-        Deque<Artist> queue = new LinkedList<>(); // File utilisée pour le parcours en largeur (FIFO = premier entré, premier sorti)
-
-        // On ajoute la source dans la file et on la marque comme visitée
-        queue.add(source);
-        visited.add(source);
-
-        // Tant qu'il reste des artistes à explorer dans la file
-        while (!queue.isEmpty()) {
-            Artist current = queue.poll(); // On enlève le premier artiste de la file
-            System.out.println(current.getName()); // On affiche son nom (ordre de visite BFS)
-
-            // On récupère toutes les mentions sortantes depuis cet artiste (ses voisins)
-            Set<Mention> out = mentions.get(current);
-            // Si l’artiste a effectivement des voisins (il peut n’en avoir aucun → null), on les explore
-            if (out != null) {
-                for (Mention m : out) {
-                    Artist voisin = m.getDestinationArtist(); // Artiste atteint par la mention
-
-                    // Si ce voisin n'a pas encore été visité, on l'ajoute à la file et on le marque comme visité
-                    if (!visited.contains(voisin)) {
-                        queue.add(voisin);
-                        visited.add(voisin);
-                    }
-                }
-            }
-        }
-    }
 
     //TODO APRES :
     public void trouverCheminLePlusCourt(String from, String to) {
@@ -185,11 +140,5 @@ public class Graph {
             System.out.println(stack.pop());
         }
     }
-
-
-
-
-
-
 
 }
