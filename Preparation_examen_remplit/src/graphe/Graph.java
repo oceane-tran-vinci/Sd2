@@ -6,11 +6,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -91,7 +94,6 @@ public class Graph {
     //TODO
     //On récupère l'artiste source à partir de son nom (par ex. "The Beatles")
     Artist fromArtist = artistsbyName.get(nomArtist);
-
     // Si l'artiste n'existe pas dans la map, on affiche un message d'erreur et on quitte la méthode
     if (fromArtist == null) {
       System.out.println("Artiste introuvable : " + nomArtist);
@@ -100,7 +102,6 @@ public class Graph {
 
     HashSet<Artist> visited = new HashSet<>(); // Ensemble des artistes déjà visités (pour ne pas les visiter plusieurs fois)
     Queue<Artist> queue = new LinkedList<>(); // File utilisée pour le parcours en largeur (FIFO = premier entré, premier sorti)
-
     // On ajoute la source dans la file et on la marque comme visitée
     visited.add(fromArtist);
     queue.add(fromArtist);
@@ -133,7 +134,7 @@ public class Graph {
 
     // (Optionnel) garde-fous simples
     if (fromArtist == null || toArtist == null) {
-      System.out.println("Artiste introuvable.");
+      System.out.println("Artistes introuvables.");
       return;
     }
 
@@ -150,17 +151,15 @@ public class Graph {
 
     while (!queue.isEmpty()) {
       Artist current = queue.poll();
-
-      // (On peut supprimer l'affichage BFS initial)
-      // System.out.println(current);
+      System.out.println(current.getName());
 
       if (current.equals(toArtist)) {
         found = true;
         break; // BFS garantit un plus court chemin en nombre d’arêtes
       }
 
-      for (Mention mention : listeAdjacence.getOrDefault(current, new HashSet<>())) {
-        Artist next = mention.getDestination();
+      for (Mention m : listeAdjacence.getOrDefault(current, new HashSet<>())) {
+        Artist next = m.getDestination();
         if (!visited.contains(next)) {
           visited.add(next);
           parent.put(next, current);
@@ -175,14 +174,16 @@ public class Graph {
     }
 
     // Reconstruction du chemin to -> from puis affichage dans l'ordre
-    Deque<Artist> stack = new ArrayDeque<>();
-    for (Artist a = toArtist; a != null; a = parent.get(a)) {
-      stack.push(a);
+    List<Artist> path = new ArrayList<>();
+    Artist artist = toArtist;
+    while (artist != null) {
+      path.add(artist);
+      artist = parent.get(artist);
     }
-    while (!stack.isEmpty()) {
-      System.out.println(stack.pop());
+    Collections.reverse(path);
+    for (Artist a : path) {
+      System.out.println(a.getName());
     }
-
 
   }
 
@@ -201,8 +202,8 @@ public class Graph {
       return;
     }
 
-    Map<Artist, Double> dist = new HashMap<>();
-    Map<Artist, Artist> parent = new HashMap<>();
+    HashMap<Artist, Double> dist = new HashMap<>();
+    HashMap<Artist, Artist> parent = new HashMap<>();
     for (Artist a : artistsById.values()) {
       dist.put(a, Double.POSITIVE_INFINITY);
     }
