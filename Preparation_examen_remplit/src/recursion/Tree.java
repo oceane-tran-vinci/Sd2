@@ -77,7 +77,6 @@ public class Tree implements Iterable<Tree> {
   }
 
   //Implémentez une méthode qui retourne un ensemble contenant les valeurs de toutes les feuilles de l’arbre.
-
   /**
    * Retourne un ensemble contenant les valeurs de toutes les feuilles de l’arbre.
    */
@@ -93,7 +92,6 @@ public class Tree implements Iterable<Tree> {
   }
 
   //Implémentez une méthode qui retourne une map contenant, pour chaque valeur présente dans l’arbre, le nombre de fois où elle apparaît.
-
   /**
    * Retourne une map indiquant combien de fois chaque valeur apparaît dans l’arbre.
    */

@@ -58,7 +58,8 @@ public class Tree implements Iterable<Tree> {
 		return children.length == 0;
 	}
 
-	// Cette m�thode renvoie une copie de this c�d une nouvelle instance de Tree ayant les m�mes �l�ments au m�me endroit que l'objet courant
+	// Cette m�thode renvoie une copie de this c�d une nouvelle instance de Tree ayant
+	// les m�mes �l�ments au m�me endroit que l'objet courant
 	public Tree clone() {
 		//TODO
 		//On crée un nouveau tableau pour stocker les clones des enfants
